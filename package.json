@@ -1,0 +1,53 @@
+{
+  "name": "@septianata/training-sdet-playwright",
+  "version": "1.0.0",
+  "description": "A training project to learn SDET using Playwright.",
+  "license": "MIT",
+  "author": {
+    "name": "Septianata Rizky Pratama",
+    "email": "hi@ianrizky.web.id"
+  },
+  "type": "module",
+  "private": true,
+  "engineStrict": true,
+  "engines": {
+    "node": "~24.11.0"
+  },
+  "volta": {
+    "node": "24.11.0",
+    "npm": "11.6.2"
+  },
+  "packageManager": "npm@11.6.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.seni.cloud/septianata/training-sdet-playwright.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/septianata/training-sdet-playwright/-/issues"
+  },
+  "homepage": "https://gitlab.com/septianata/training-sdet-playwright/-/blob/main/README.md",
+  "keywords": [
+    "Node.js",
+    "TypeScript",
+    "Playwright"
+  ],
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "lint": "eslint \"{src,tests}/**/*.ts\" --fix",
+    "test": "playwright test",
+    "test:cov": "export COVERAGE=true && playwright test"
+  },
+  "devDependencies": {
+    "@bgotink/playwright-coverage": "^0.3.2",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.0",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.3"
+  }
+}

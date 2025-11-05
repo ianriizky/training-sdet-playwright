@@ -1,0 +1,22 @@
+name: 'Setup Node.js Environment'
+
+description: 'Setup Node.js for the project'
+
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: true
+  cache-dependency-path:
+    description: 'Path to the lock file for caching'
+    required: false
+    default: 'package-lock.json'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+        cache-dependency-path: ${{ inputs.cache-dependency-path }}

@@ -1,0 +1,44 @@
+stages:
+  - build
+  - test
+
+image: node:$NODE_VERSION
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules
+  policy: pull-push
+
+variables:
+  NODE_VERSION: 24.11.0
+
+  APP_URL: https://www.saucedemo.com
+
+build:
+  only:
+    - main
+    - develop
+    - merge_requests
+  stage: build
+  script:
+    - npm ci
+    - npx playwright install --with-deps
+
+test:
+  only:
+    - main
+    - develop
+    - merge_requests
+  stage: test
+  needs: [build]
+  script:
+    - npm run test:cov
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml

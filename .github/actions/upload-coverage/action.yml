@@ -1,0 +1,34 @@
+name: 'Upload Coverage Report'
+
+description: 'Upload coverage report as artifact and publish to Codecov'
+
+inputs:
+  artifact-name:
+    description: 'Name for the coverage artifact'
+    required: true
+  codecov-token:
+    description: 'Codecov token'
+    required: true
+  coverage-file:
+    description: 'Path to the coverage file'
+    required: true
+  coverage-flags:
+    description: 'Flags for Codecov'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.coverage-file }}
+
+    - name: Publish coverage report to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ inputs.codecov-token }}
+        file: ${{ inputs.coverage-file }}
+        flags: ${{ inputs.coverage-flags }}
+        fail_ci_if_error: true
