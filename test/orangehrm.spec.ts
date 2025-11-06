@@ -64,8 +64,8 @@ test.describe('OrangeHRM', () => {
 
     await expect(page).toHaveURL(/.*dashboard/);
 
-    await page.locator('.oxd-userdropdown').click();
-    await page.getByRole('link', { name: 'Logout' }).click();
+    await page.locator('.oxd-userdropdown-name').click();
+    await page.getByRole('menuitem', { name: 'Logout' }).click();
 
     await expect(page).toHaveURL(/.*auth\/login/);
   });
