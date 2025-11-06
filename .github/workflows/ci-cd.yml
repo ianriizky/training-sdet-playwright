@@ -27,8 +27,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Install Playwright with cache
+        uses: ./.github/actions/install-playwright
 
       - name: Cache build artifacts
         uses: actions/cache@v4
