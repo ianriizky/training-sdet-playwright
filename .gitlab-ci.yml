@@ -10,12 +10,14 @@ cache:
       - package-lock.json
   paths:
     - node_modules
-    - ~/.cache/ms-playwright
+    - .cache/ms-playwright
   policy: pull-push
 
 variables:
   PLAYWRIGHT_VERSION: 1.56.1
   NODE_VERSION: 24.11.0
+  # used by `npx playwright install --with-deps`
+  PLAYWRIGHT_BROWSERS_PATH: $CI_PROJECT_DIR/.cache/ms-playwright
 
   APP_URL: https://www.saucedemo.com
 
@@ -37,8 +39,6 @@ test:
   stage: test
   needs: [build]
   script:
-    - npm ci
-    - npx playwright install --with-deps
     - npm run test:cov
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
