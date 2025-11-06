@@ -37,6 +37,8 @@ test:
   stage: test
   needs: [build]
   script:
+    - npm ci
+    - npx playwright install --with-deps
     - npm run test:cov
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
