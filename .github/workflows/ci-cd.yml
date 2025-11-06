@@ -8,6 +8,7 @@ on:
 
 env:
   NODE_VERSION: 24.11.0
+  PLAYWRIGHT_VERSION: 1.56.1
 
   APP_URL: https://www.saucedemo.com
 
@@ -29,14 +30,18 @@ jobs:
 
       - name: Install Playwright with cache
         uses: ./.github/actions/install-playwright
+        with:
+          playwright-version: ${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Cache build artifacts
         uses: actions/cache@v4
         with:
           path: |
             node_modules
+            ~/.cache/ms-playwright
           key: ${{ runner.os }}-build-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-build-
+          restore-keys: |
+            ${{ runner.os }}-build-
 
   test:
     needs: build
@@ -56,6 +61,11 @@ jobs:
         uses: ./.github/actions/restore-cache
         with:
           cache-key: ${{ runner.os }}-build-${{ github.sha }}
+
+      - name: Restore Playwright cache
+        uses: ./.github/actions/install-playwright
+        with:
+          playwright-version: ${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Run Playwright tests
         run: npm run test:cov

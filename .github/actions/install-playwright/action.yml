@@ -2,20 +2,20 @@ name: Install Playwright with Cache
 
 description: Install Playwright browsers with caching support for faster CI/CD runs
 
+inputs:
+  playwright-version:
+    description: 'Playwright version to cache'
+    required: true
+
 runs:
   using: composite
   steps:
-    - name: Get installed Playwright version
-      id: playwright-version
-      shell: bash
-      run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
-
     - name: Cache Playwright binaries
       uses: actions/cache@v4
       id: playwright-cache
       with:
         path: ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+        key: ${{ runner.os }}-playwright-${{ inputs.playwright-version }}
 
     - name: Install Playwright browsers
       shell: bash

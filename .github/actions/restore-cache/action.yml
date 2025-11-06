@@ -15,5 +15,7 @@ runs:
       with:
         path: |
           node_modules
-          dist
+          ~/.cache/ms-playwright
         key: ${{ inputs.cache-key }}
+        restore-keys: |
+          ${{ runner.os }}-build-
