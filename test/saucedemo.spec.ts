@@ -11,6 +11,8 @@ const acceptedUsernames = [
 const acceptedPasswords = ['secret_sauce'] as const;
 
 test.describe('SauceDemo', () => {
+  test.use({ baseURL: 'https://www.saucedemo.com' });
+
   test('User should be able to Login with valid credentials and verify the correct URL after logged in', async ({
     page,
   }) => {
