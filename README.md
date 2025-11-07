@@ -29,7 +29,6 @@
   - [Project setup](#project-setup)
   - [Run tests](#run-tests)
   - [Author](#author)
-  - [Changelog](#changelog)
   - [License](#license)
 
 ## Description
@@ -66,10 +65,6 @@ $ npm run test:cov
 ## Author
 
 - [Septianata Rizky Pratama](https://ianrizky.web.id) - hi@ianrizky.web.id
-
-## Changelog
-
-You can read the changelog [here](CHANGELOG.md).
 
 ## License
 
