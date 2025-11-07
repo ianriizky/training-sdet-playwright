@@ -15,5 +15,6 @@ runs:
           ${{ runner.os }}-node-
 
     - name: Install dependencies
+      shell: bash
       run: npm ci
       if: steps.node-cache.outputs.cache-hit != 'true'
