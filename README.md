@@ -6,14 +6,14 @@
 
 ### GitLab
 
-[![Release](https://git.seni.cloud/septianata/training-sdet-playwright/-/badges/release.svg)](https://git.seni.cloud/septianata/training-sdet-playwright/-/releases)
-[![Pipeline Status](https://git.seni.cloud/septianata/training-sdet-playwright/badges/main/pipeline.svg)](https://git.seni.cloud/septianata/training-sdet-playwright/-/commits/main)
-[![Coverage Status](https://git.seni.cloud/septianata/training-sdet-playwright/badges/main/coverage.svg)](https://git.seni.cloud/septianata/training-sdet-playwright/-/commits/main)
+[![Release](https://gitlab.com/ianriizky/training-sdet-playwright/-/badges/release.svg)](https://gitlab.com/ianriizky/training-sdet-playwright/-/releases)
+[![Pipeline Status](https://gitlab.com/ianriizky/training-sdet-playwright/badges/main/pipeline.svg)](https://gitlab.com/ianriizky/training-sdet-playwright/-/commits/main)
+[![Coverage Status](https://gitlab.com/ianriizky/training-sdet-playwright/badges/main/coverage.svg)](https://gitlab.com/ianriizky/training-sdet-playwright/-/commits/main)
 
 ### GitHub
 
 [![Release](https://badgen.net/github/release/ianriizky/training-sdet-playwright 'Release')](https://github.com/ianriizky/training-sdet-playwright/releases)
-[![Pipeline Status](https://github.com/ianriizky/training-sdet-playwright/actions/workflows/ci-cd.yml/badge.svg 'Pipeline Status')](https://github.com/ianriizky/training-sdet-playwright/actions/workflows/ci-cd.yml)
+[![Pipeline Status](https://github.com/ianriizky/training-sdet-playwright/actions/workflows/playwright.yml/badge.svg 'Pipeline Status')](https://github.com/ianriizky/training-sdet-playwright/actions/workflows/playwright.yml)
 [![Codecov Coverage](https://codecov.io/github/ianriizky/training-sdet-playwright/graph/badge.svg?token=89QP3GJD60)](https://codecov.io/github/ianriizky/training-sdet-playwright)
 
 ## Table of contents

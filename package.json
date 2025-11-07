@@ -1,5 +1,5 @@
 {
-  "name": "@septianata/training-sdet-playwright",
+  "name": "@ianriizky/training-sdet-playwright",
   "version": "1.0.0",
   "description": "A training project to learn SDET using Playwright.",
   "license": "MIT",
@@ -20,12 +20,12 @@
   "packageManager": "npm@11.6.2",
   "repository": {
     "type": "git",
-    "url": "git+https://git.seni.cloud/septianata/training-sdet-playwright.git"
+    "url": "git+https://github.com/ianriizky/training-sdet-playwright.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/septianata/training-sdet-playwright/-/issues"
+    "url": "https://github.com/ianriizky/training-sdet-playwright/issues"
   },
-  "homepage": "https://gitlab.com/septianata/training-sdet-playwright/-/blob/main/README.md",
+  "homepage": "https://github.com/ianriizky/training-sdet-playwright/blob/main/README.md",
   "keywords": [
     "Node.js",
     "TypeScript",
