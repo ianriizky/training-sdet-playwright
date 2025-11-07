@@ -118,8 +118,10 @@ test.describe('SauceDemo - Inventory', () => {
       await page.locator('[data-test="shopping-cart-link"]').click();
     });
 
-    const cartItems = page.locator('[data-test="cart-item"]');
-    expect(await cartItems.count()).toBe(randomCount);
+    const numberOfCartItem = await page
+      .locator('[data-test="inventory-item"]')
+      .count();
+    expect(numberOfCartItem).toBe(randomCount);
   });
 
   test('Remove 1 item from cart and verify the cart shows correct badge number and the item exist when Cart is opened', async ({
@@ -142,8 +144,10 @@ test.describe('SauceDemo - Inventory', () => {
     const cartBadge = page.locator('[data-test="shopping-cart-badge"]');
     await expect(cartBadge).toContainText('1');
 
-    const cartItems = page.locator('[data-test="cart-item"]');
-    expect(await cartItems.count()).toBe(1);
+    const numberOfCartItem = await page
+      .locator('[data-test="inventory-item"]')
+      .count();
+    expect(numberOfCartItem).toBe(1);
   });
 
   test('Remove all items from cart and verify the cart is empty', async ({
@@ -167,8 +171,10 @@ test.describe('SauceDemo - Inventory', () => {
       }
     });
 
-    const cartItems = page.locator('[data-test="cart-item"]');
-    expect(await cartItems.count()).toBe(0);
+    const numberOfCartItem = await page
+      .locator('[data-test="inventory-item"]')
+      .count();
+    expect(numberOfCartItem).toBe(0);
 
     const emptyMessage = page.locator('.cart_contents_container');
     await expect(emptyMessage).toContainText('Continue Shopping');
