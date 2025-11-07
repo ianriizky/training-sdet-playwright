@@ -2,11 +2,6 @@ name: Install Playwright with Cache
 
 description: Install Playwright browsers with caching support for faster CI/CD runs
 
-inputs:
-  playwright-version:
-    description: 'Playwright version to cache'
-    required: true
-
 runs:
   using: composite
   steps:
@@ -15,14 +10,9 @@ runs:
       id: playwright-cache
       with:
         path: ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ inputs.playwright-version }}
+        key: ${{ runner.os }}-playwright
 
     - name: Install Playwright browsers
       shell: bash
       run: npx playwright install --with-deps
-      if: steps.playwright-cache.outputs.cache-hit != 'true'
-
-    - name: Install Playwright dependencies
-      shell: bash
-      run: npx playwright install-deps
       if: steps.playwright-cache.outputs.cache-hit != 'true'
