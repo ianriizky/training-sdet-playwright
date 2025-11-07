@@ -10,14 +10,10 @@ cache:
       - package-lock.json
   paths:
     - node_modules
-    - .playwright
   policy: pull-push
 
 variables:
-  PLAYWRIGHT_VERSION: 1.56.1
   NODE_VERSION: 24.11.0
-  # Playwright browsers path - must be inside project directory for GitLab CI caching
-  PLAYWRIGHT_BROWSERS_PATH: $CI_PROJECT_DIR/.playwright/ms-playwright
 
   APP_URL: https://www.saucedemo.com
 
@@ -29,7 +25,7 @@ build:
   stage: build
   script:
     - npm ci
-    - npx playwright install --with-deps
+    - PLAYWRIGHT_BROWSERS_PATH=$CI_PROJECT_DIR/node_modules/playwright-core/.local-browsers npx playwright install --with-deps
 
 test:
   only:
@@ -39,7 +35,7 @@ test:
   stage: test
   needs: [build]
   script:
-    - npm run test:cov
+    - export COVERAGE=true PLAYWRIGHT_BROWSERS_PATH=$CI_PROJECT_DIR/node_modules/playwright-core/.local-browsers && playwright test
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
     reports:
