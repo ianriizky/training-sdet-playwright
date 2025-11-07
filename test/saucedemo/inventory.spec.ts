@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { generateRandomNumber } from '../../resources/utils';
+
 import { acceptedPasswords, acceptedUsernames } from './constant';
 
 test.describe('SauceDemo - Inventory', () => {
@@ -95,7 +97,7 @@ test.describe('SauceDemo - Inventory', () => {
   test('Select random item (2-6) Add to Cart and verify the cart shows correct badge number and the item exist when Cart is opened', async ({
     page,
   }) => {
-    const randomCount = Math.floor(Math.random() * (6 - 2 + 1)) + 2;
+    const randomCount = generateRandomNumber(2, 6);
 
     await test.step('Select random item (2-6) Add to Cart', async () => {
       const addToCartButtons = page.locator('[data-test^="add-to-cart"]');
@@ -103,7 +105,7 @@ test.describe('SauceDemo - Inventory', () => {
 
       const selectedIndices = new Set<number>();
       while (selectedIndices.size < Math.min(randomCount, totalButtons)) {
-        selectedIndices.add(Math.floor(Math.random() * totalButtons));
+        selectedIndices.add(generateRandomNumber(0, totalButtons));
       }
 
       for (const index of selectedIndices) {
