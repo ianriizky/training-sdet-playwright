@@ -1,30 +1,21 @@
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
 
-import { acceptedPasswords, acceptedUsernames } from './constant';
+import { DashboardPage } from '@/resources/pages/orangehrm/dashboard.page';
+import { LoginPage } from '@/resources/pages/orangehrm/login.page';
 
 test.describe('OrangeHRM - Dashboard', () => {
-  test.use({ baseURL: 'https://opensource-demo.orangehrmlive.com' });
+  let loginPage: LoginPage;
+  let dashboardPage: DashboardPage;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/web/index.php/auth/login');
+    loginPage = new LoginPage(page);
+    dashboardPage = new DashboardPage(page);
 
-    await test.step('Fill in credentials', async () => {
-      await page
-        .getByRole('textbox', { name: 'Username' })
-        .fill(acceptedUsernames[0]);
-      await page
-        .getByRole('textbox', { name: 'Password' })
-        .fill(acceptedPasswords[0]);
-    });
-
-    await test.step('Click login button', async () => {
-      await page.getByRole('button', { name: 'Login' }).click();
-    });
+    await loginPage.navigateToLoginPage();
+    await loginPage.performValidLogin();
   });
 
-  test('Ensure these section titles are present in the Dashboard: Time at Work, My Actions, Quick Launch, Buzz Latest Posts, Employees on Leave Today, Employee Distribution by Sub Unit, Employee Distribution by Location', async ({
-    page,
-  }) => {
+  test('Ensure these section titles are present in the Dashboard: Time at Work, My Actions, Quick Launch, Buzz Latest Posts, Employees on Leave Today, Employee Distribution by Sub Unit, Employee Distribution by Location', async () => {
     const sectionTitles = [
       'Time at Work',
       'My Actions',
@@ -35,9 +26,6 @@ test.describe('OrangeHRM - Dashboard', () => {
       'Employee Distribution by Location',
     ];
 
-    for (const title of sectionTitles) {
-      const sectionElement = page.locator(`text=${title}`);
-      await expect(sectionElement).toBeVisible();
-    }
+    await dashboardPage.assertSectionTitlesAreVisible(sectionTitles);
   });
 });

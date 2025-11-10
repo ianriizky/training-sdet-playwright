@@ -23,7 +23,11 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "allowUnreachableCode": false,
-    "allowUnusedLabels": false
+    "allowUnusedLabels": false,
+    "paths": {
+      "@/resources/*": ["./resources/*"],
+      "@/test/*": ["./test/*"]
+    }
   },
   "include": ["resources/**/*", "test/**/*", "playwright.config.ts"]
 }

@@ -1,184 +1,65 @@
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
 
-import { generateRandomNumber } from '../../resources/utils';
-
-import { acceptedPasswords, acceptedUsernames } from './constant';
+import { InventoryPage } from '@/resources/pages/saucedemo/inventory.page';
+import { LoginPage } from '@/resources/pages/saucedemo/login.page';
+import { generateRandomNumber } from '@/resources/utils';
 
 test.describe('SauceDemo - Inventory', () => {
-  test.use({ baseURL: 'https://www.saucedemo.com' });
+  let loginPage: LoginPage;
+  let inventoryPage: InventoryPage;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    loginPage = new LoginPage(page);
+    inventoryPage = new InventoryPage(page);
 
-    await test.step('Fill in credentials', async () => {
-      await page.locator('[data-test="username"]').fill(acceptedUsernames[0]);
-      await page.locator('[data-test="password"]').fill(acceptedPasswords[0]);
-    });
-
-    await test.step('Click login button', async () => {
-      await page.locator('[data-test="login-button"]').click();
-    });
+    await loginPage.navigateToHomePage();
+    await loginPage.performValidLogin();
   });
 
-  test('Sort items as Name A-Z and verify the item is sorted properly', async ({
-    page,
-  }) => {
-    await test.step('Click sort by name A-Z', async () => {
-      await page
-        .locator('[data-test="product-sort-container"]')
-        .selectOption('az');
-    });
-
-    const itemNames = await page
-      .locator('[data-test="inventory-item-name"]')
-      .allTextContents();
-    const sortedNames = [...itemNames].sort();
-
-    expect(itemNames).toEqual(sortedNames);
+  test('Sort items as Name A-Z and verify the item is sorted properly', async () => {
+    await inventoryPage.performSortByNameAZ();
+    await inventoryPage.assertItemsSortedByNameAZ();
   });
 
-  test('Sort items as Name Z-A and verify the item is sorted properly', async ({
-    page,
-  }) => {
-    await test.step('Click sort by name Z-A', async () => {
-      await page
-        .locator('[data-test="product-sort-container"]')
-        .selectOption('za');
-    });
-
-    const itemNames = await page
-      .locator('[data-test="inventory-item-name"]')
-      .allTextContents();
-    const sortedNames = [...itemNames].sort().reverse();
-
-    expect(itemNames).toEqual(sortedNames);
+  test('Sort items as Name Z-A and verify the item is sorted properly', async () => {
+    await inventoryPage.performSortByNameZA();
+    await inventoryPage.assertItemsSortedByNameZA();
   });
 
-  test('Sort items as Price Low-High and verify the item is sorted properly', async ({
-    page,
-  }) => {
-    await test.step('Click sort by price low-high', async () => {
-      await page
-        .locator('[data-test="product-sort-container"]')
-        .selectOption('lohi');
-    });
-
-    const itemPrices = await page
-      .locator('[data-test="inventory-item-price"]')
-      .allTextContents();
-    const prices = itemPrices.map((price) =>
-      parseFloat(price.replace('$', '')),
-    );
-    const sortedPrices = [...prices].sort((a, b) => a - b);
-
-    expect(prices).toEqual(sortedPrices);
+  test('Sort items as Price Low-High and verify the item is sorted properly', async () => {
+    await inventoryPage.performSortByPriceLowHigh();
+    await inventoryPage.assertItemsSortedByPriceLowHigh();
   });
 
-  test('Sort items as Price High-Low and verify the item is sorted properly', async ({
-    page,
-  }) => {
-    await test.step('Click sort by price high-low', async () => {
-      await page
-        .locator('[data-test="product-sort-container"]')
-        .selectOption('hilo');
-    });
-
-    const itemPrices = await page
-      .locator('[data-test="inventory-item-price"]')
-      .allTextContents();
-    const prices = itemPrices.map((price) =>
-      parseFloat(price.replace('$', '')),
-    );
-    const sortedPrices = [...prices].sort((a, b) => b - a);
-
-    expect(prices).toEqual(sortedPrices);
+  test('Sort items as Price High-Low and verify the item is sorted properly', async () => {
+    await inventoryPage.performSortByPriceHighLow();
+    await inventoryPage.assertItemsSortedByPriceHighLow();
   });
 
-  test('Select random item (2-6) Add to Cart and verify the cart shows correct badge number and the item exist when Cart is opened', async ({
-    page,
-  }) => {
+  test('Select random item (2-6) Add to Cart and verify the cart shows correct badge number and the item exist when Cart is opened', async () => {
     const randomCount = generateRandomNumber(2, 6);
 
-    await test.step('Select random item (2-6) Add to Cart', async () => {
-      const addToCartButtons = page.locator('[data-test^="add-to-cart"]');
-      const totalButtons = await addToCartButtons.count();
+    await inventoryPage.performAddRandomItemsToCart(randomCount);
+    await inventoryPage.assertCartBadgeCount(randomCount);
 
-      const selectedIndices = new Set<number>();
-      while (selectedIndices.size < Math.min(randomCount, totalButtons)) {
-        selectedIndices.add(generateRandomNumber(0, totalButtons));
-      }
-
-      for (const index of selectedIndices) {
-        await addToCartButtons.nth(index).click();
-      }
-    });
-
-    const cartBadge = page.locator('[data-test="shopping-cart-badge"]');
-    await expect(cartBadge).toContainText(randomCount.toString());
-
-    await test.step('Open Cart', async () => {
-      await page.locator('[data-test="shopping-cart-link"]').click();
-    });
-
-    const numberOfCartItem = await page
-      .locator('[data-test="inventory-item"]')
-      .count();
-    expect(numberOfCartItem).toBe(randomCount);
+    await inventoryPage.performOpenCart();
+    await inventoryPage.assertCartItemCount(randomCount);
   });
 
-  test('Remove 1 item from cart and verify the cart shows correct badge number and the item exist when Cart is opened', async ({
-    page,
-  }) => {
-    await test.step('Add 2 items to cart', async () => {
-      await page.locator('[data-test^="add-to-cart"]').nth(0).click();
-      await page.locator('[data-test^="add-to-cart"]').nth(1).click();
-    });
+  test('Remove 1 item from cart and verify the cart shows correct badge number and the item exist when Cart is opened', async () => {
+    await inventoryPage.performAddSpecificItemsToCart([0, 1]);
+    await inventoryPage.performOpenCart();
+    await inventoryPage.performRemoveItemFromCart(0);
 
-    await test.step('Open Cart', async () => {
-      await page.locator('[data-test="shopping-cart-link"]').click();
-    });
-
-    await test.step('Remove 1 item from cart', async () => {
-      const removeButtons = page.locator('[data-test^="remove-"]');
-      await removeButtons.first().click();
-    });
-
-    const cartBadge = page.locator('[data-test="shopping-cart-badge"]');
-    await expect(cartBadge).toContainText('1');
-
-    const numberOfCartItem = await page
-      .locator('[data-test="inventory-item"]')
-      .count();
-    expect(numberOfCartItem).toBe(1);
+    await inventoryPage.assertCartBadgeCount(1);
+    await inventoryPage.assertCartItemCount(1);
   });
 
-  test('Remove all items from cart and verify the cart is empty', async ({
-    page,
-  }) => {
-    await test.step('Add 2 items to cart', async () => {
-      await page.locator('[data-test^="add-to-cart"]').nth(0).click();
-      await page.locator('[data-test^="add-to-cart"]').nth(1).click();
-    });
+  test('Remove all items from cart and verify the cart is empty', async () => {
+    await inventoryPage.performAddSpecificItemsToCart([0, 1]);
+    await inventoryPage.performOpenCart();
+    await inventoryPage.performRemoveAllItemsFromCart();
 
-    await test.step('Open Cart', async () => {
-      await page.locator('[data-test="shopping-cart-link"]').click();
-    });
-
-    await test.step('Remove all items from cart', async () => {
-      const removeButtons = page.locator('[data-test^="remove-"]');
-      const removeCount = await removeButtons.count();
-
-      for (let i = 0; i < removeCount; i++) {
-        await page.locator('[data-test^="remove-"]').first().click();
-      }
-    });
-
-    const numberOfCartItem = await page
-      .locator('[data-test="inventory-item"]')
-      .count();
-    expect(numberOfCartItem).toBe(0);
-
-    const emptyMessage = page.locator('.cart_contents_container');
-    await expect(emptyMessage).toContainText('Continue Shopping');
+    await inventoryPage.assertCartEmpty();
   });
 });
