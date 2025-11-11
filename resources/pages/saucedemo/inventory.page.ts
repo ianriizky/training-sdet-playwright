@@ -39,17 +39,22 @@ export class InventoryPage extends AbstractPage<InventoryLocator> {
 
   async performAddRandomItemsToCart(count: number): Promise<void> {
     await test.step(`Select random item (${count}) Add to Cart`, async () => {
-      const totalButtons = await this.locator.addToCartButtons.count();
+      const addToCartButtons = await this.locator.collectAddToCartButtons();
 
       const selectedIndices = new Set<number>();
-      while (selectedIndices.size < Math.min(count, totalButtons)) {
-        selectedIndices.add(
-          this.faker.number.int({ min: 0, max: totalButtons - 1 }),
-        );
+      while (selectedIndices.size < Math.min(count, addToCartButtons.length)) {
+        const selectedIndex = this.faker.number.int({
+          min: 0,
+          max: addToCartButtons.length - 1,
+        });
+
+        if (!selectedIndices.has(selectedIndex)) {
+          selectedIndices.add(selectedIndex);
+        }
       }
 
       for (const index of selectedIndices) {
-        await this.locator.addToCartButtons.nth(index).click();
+        await addToCartButtons[index]!.click();
       }
     });
   }
@@ -76,10 +81,10 @@ export class InventoryPage extends AbstractPage<InventoryLocator> {
 
   async performRemoveAllItemsFromCart(): Promise<void> {
     await test.step('Remove all items from cart', async () => {
-      const removeCount = await this.locator.removeButtons.count();
+      const removeButtons = await this.locator.collectRemoveButtons();
 
-      for (let i = 0; i < removeCount; i++) {
-        await this.locator.removeButtons.nth(i).click();
+      for (const removeButton of removeButtons) {
+        await removeButton.click();
       }
     });
   }

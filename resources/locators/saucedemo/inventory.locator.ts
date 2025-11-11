@@ -1,5 +1,4 @@
 import { type InventorySelector } from '@/resources/selectors/saucedemo/inventory.selector';
-import { toKebabCase } from '@/resources/utils';
 
 import { AbstractLocator } from '../abstract.locator';
 
@@ -42,12 +41,8 @@ export class InventoryLocator extends AbstractLocator<InventorySelector> {
     return this.page.locator(this.selector.emptyCartMessage.selector);
   }
 
-  getAddToCartButtonByItemName(name: string) {
-    return this.page.locator(`[data-test="add-to-cart-${toKebabCase(name)}"]`);
-  }
-
-  getRemoveButtonByItemName(name: string) {
-    return this.page.locator(`[data-test="remove-${toKebabCase(name)}"]`);
+  getLocatorByDataTest(dataTest: string) {
+    return this.page.locator(`[data-test="${dataTest}"]`);
   }
 
   async collectAddToCartButtons() {
@@ -58,7 +53,7 @@ export class InventoryLocator extends AbstractLocator<InventorySelector> {
       const name = await button.getAttribute('data-test');
 
       if (name) {
-        addToCartButtonLocators.push(this.getAddToCartButtonByItemName(name));
+        addToCartButtonLocators.push(this.getLocatorByDataTest(name));
       }
     }
 
@@ -73,7 +68,7 @@ export class InventoryLocator extends AbstractLocator<InventorySelector> {
       const name = await button.getAttribute('data-test');
 
       if (name) {
-        removeButtonLocators.push(this.getRemoveButtonByItemName(name));
+        removeButtonLocators.push(this.getLocatorByDataTest(name));
       }
     }
 
