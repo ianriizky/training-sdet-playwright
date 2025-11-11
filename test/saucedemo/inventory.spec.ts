@@ -2,6 +2,8 @@ import { test } from '@playwright/test';
 
 import { InventoryPage } from '@/resources/pages/saucedemo/inventory.page';
 import { LoginPage } from '@/resources/pages/saucedemo/login.page';
+import { inventorySelector } from '@/resources/selectors/saucedemo/inventory.selector';
+import { loginSelector } from '@/resources/selectors/saucedemo/login.selector';
 import { generateRandomNumber } from '@/resources/utils';
 
 test.describe('SauceDemo - Inventory', () => {
@@ -9,8 +11,8 @@ test.describe('SauceDemo - Inventory', () => {
   let inventoryPage: InventoryPage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    inventoryPage = new InventoryPage(page);
+    loginPage = new LoginPage(page, loginSelector);
+    inventoryPage = new InventoryPage(page, inventorySelector);
 
     await loginPage.navigateToHomePage();
     await loginPage.performValidLogin();

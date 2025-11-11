@@ -1,4 +1,5 @@
 import env from '@/resources/env';
+import type { AbstractLocator } from '@/resources/locators/abstract.locator';
 
 import { AbstractPage as BaseAbstractPage } from '../abstract.page';
 
@@ -9,9 +10,14 @@ interface Credential {
   password: string;
 }
 
-export abstract class AbstractPage extends BaseAbstractPage {
-  constructor(protected override readonly page: Page) {
-    super(page, { baseURL: env.ORANGEHRM_BASE_URL });
+export abstract class AbstractPage<
+  TLocator extends AbstractLocator,
+> extends BaseAbstractPage<TLocator> {
+  constructor(
+    protected override readonly page: Page,
+    protected override readonly locator: TLocator,
+  ) {
+    super(page, locator, { baseURL: env.ORANGEHRM_BASE_URL });
   }
 
   protected get acceptedCredentials(): Credential[] {

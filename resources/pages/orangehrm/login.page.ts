@@ -1,36 +1,16 @@
-import test, { expect } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
 
-import { loginSelector } from '@/resources/selectors/orangehrm/login.selector';
+import { LoginLocator } from '@/resources/locators/orangehrm/login.locator';
+import type { LoginSelector } from '@/resources/selectors/orangehrm/login.selector';
 
 import { AbstractPage } from './abstract.page';
 
-export class LoginPage extends AbstractPage {
-  get usernameField() {
-    return this.page.locator(loginSelector.usernameField);
-  }
-
-  get passwordField() {
-    return this.page.locator(loginSelector.passwordField);
-  }
-
-  get loginButton() {
-    return this.page.locator(loginSelector.loginButton);
-  }
-
-  get errorMessage() {
-    return this.page.locator(loginSelector.errorMessage);
-  }
-
-  get requiredErrorMessages() {
-    return this.page.locator(loginSelector.requiredErrorMessages);
-  }
-
-  get userDropdown() {
-    return this.page.locator(loginSelector.userDropdown);
-  }
-
-  get logoutMenuItem() {
-    return this.page.locator(loginSelector.logoutMenuItem);
+export class LoginPage extends AbstractPage<LoginLocator> {
+  constructor(
+    protected override readonly page: Page,
+    protected readonly selector: LoginSelector,
+  ) {
+    super(page, new LoginLocator(page, selector));
   }
 
   async navigateToLoginPage(): Promise<void> {
@@ -41,8 +21,8 @@ export class LoginPage extends AbstractPage {
     await test.step('Fill in valid credentials', async () => {
       const credential = this.randomAcceptedCredential;
 
-      await this.usernameField.fill(credential.username);
-      await this.passwordField.fill(credential.password);
+      await this.locator.usernameField.fill(credential.username);
+      await this.locator.passwordField.fill(credential.password);
     });
   }
 
@@ -50,14 +30,14 @@ export class LoginPage extends AbstractPage {
     await test.step('Fill in invalid credentials', async () => {
       const credential = this.faker.internet;
 
-      await this.usernameField.fill(credential.username());
-      await this.passwordField.fill(credential.password());
+      await this.locator.usernameField.fill(credential.username());
+      await this.locator.passwordField.fill(credential.password());
     });
   }
 
   async performClickLoginButton(): Promise<void> {
     await test.step('Click login button', async () => {
-      await this.loginButton.click();
+      await this.locator.loginButton.click();
     });
   }
 
@@ -73,7 +53,7 @@ export class LoginPage extends AbstractPage {
 
   async performClickLogoutButton(): Promise<void> {
     await test.step('Click logout button', async () => {
-      await this.userDropdown.click();
+      await this.locator.userDropdown.click();
       await this.page.getByRole('menuitem', { name: 'Logout' }).click();
     });
   }
@@ -87,11 +67,13 @@ export class LoginPage extends AbstractPage {
   }
 
   async assertHasErrorLoginInvalidCredentials(): Promise<void> {
-    await expect(this.errorMessage).toContainText('Invalid credentials');
+    await expect(this.locator.errorMessage).toContainText(
+      'Invalid credentials',
+    );
   }
 
   async assertHasErrorLoginRequiredFields(): Promise<void> {
-    const errorMessages = await this.requiredErrorMessages.all();
+    const errorMessages = await this.locator.requiredErrorMessages.all();
 
     for (const errorMessage of errorMessages) {
       await expect(errorMessage).toContainText('Required');

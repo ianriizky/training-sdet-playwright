@@ -1,12 +1,13 @@
 import { test } from '@playwright/test';
 
 import { LoginPage } from '@/resources/pages/saucedemo/login.page';
+import { loginSelector } from '@/resources/selectors/saucedemo/login.selector';
 
 test.describe('SauceDemo - Login', () => {
   let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
+    loginPage = new LoginPage(page, loginSelector);
 
     await loginPage.navigateToHomePage();
   });
@@ -22,7 +23,7 @@ test.describe('SauceDemo - Login', () => {
   });
 
   test('User should unable to Login with empty fields and verify the "Username is required" message appears', async () => {
-    await loginPage.loginButton.click();
+    await loginPage.performClickLoginButton();
     await loginPage.assertHasErrorLoginUsernameRequired();
   });
 

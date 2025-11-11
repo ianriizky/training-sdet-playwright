@@ -1,73 +1,45 @@
-import test, { expect } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
 
-import { inventorySelector } from '@/resources/selectors/saucedemo/inventory.selector';
+import { InventoryLocator } from '@/resources/locators/saucedemo/inventory.locator';
+import { type InventorySelector } from '@/resources/selectors/saucedemo/inventory.selector';
 
 import { AbstractPage } from './abstract.page';
 
-export class InventoryPage extends AbstractPage {
-  get sortContainer() {
-    return this.page.locator(inventorySelector.sortContainer);
-  }
-
-  get itemNames() {
-    return this.page.locator(inventorySelector.itemName);
-  }
-
-  get itemPrices() {
-    return this.page.locator(inventorySelector.itemPrice);
-  }
-
-  get addToCartButtons() {
-    return this.page.locator(inventorySelector.addToCartButton);
-  }
-
-  get cartBadge() {
-    return this.page.locator(inventorySelector.cartBadge);
-  }
-
-  get cartLink() {
-    return this.page.locator(inventorySelector.cartLink);
-  }
-
-  get removeButtons() {
-    return this.page.locator(inventorySelector.removeButton);
-  }
-
-  get cartItems() {
-    return this.page.locator(inventorySelector.cartItem);
-  }
-
-  get emptyCartMessage() {
-    return this.page.locator(inventorySelector.emptyCartMessage);
+export class InventoryPage extends AbstractPage<InventoryLocator> {
+  constructor(
+    protected override readonly page: Page,
+    protected readonly selector: InventorySelector,
+  ) {
+    super(page, new InventoryLocator(page, selector));
   }
 
   async performSortByNameAZ(): Promise<void> {
     await test.step('Click sort by name A-Z', async () => {
-      await this.sortContainer.selectOption('az');
+      await this.locator.sortContainer.selectOption('az');
     });
   }
 
   async performSortByNameZA(): Promise<void> {
     await test.step('Click sort by name Z-A', async () => {
-      await this.sortContainer.selectOption('za');
+      await this.locator.sortContainer.selectOption('za');
     });
   }
 
   async performSortByPriceLowHigh(): Promise<void> {
     await test.step('Click sort by price low-high', async () => {
-      await this.sortContainer.selectOption('lohi');
+      await this.locator.sortContainer.selectOption('lohi');
     });
   }
 
   async performSortByPriceHighLow(): Promise<void> {
     await test.step('Click sort by price high-low', async () => {
-      await this.sortContainer.selectOption('hilo');
+      await this.locator.sortContainer.selectOption('hilo');
     });
   }
 
   async performAddRandomItemsToCart(count: number): Promise<void> {
     await test.step(`Select random item (${count}) Add to Cart`, async () => {
-      const totalButtons = await this.addToCartButtons.count();
+      const totalButtons = await this.locator.addToCartButtons.count();
 
       const selectedIndices = new Set<number>();
       while (selectedIndices.size < Math.min(count, totalButtons)) {
@@ -77,7 +49,7 @@ export class InventoryPage extends AbstractPage {
       }
 
       for (const index of selectedIndices) {
-        await this.addToCartButtons.nth(index).click();
+        await this.locator.addToCartButtons.nth(index).click();
       }
     });
   }
@@ -85,49 +57,49 @@ export class InventoryPage extends AbstractPage {
   async performAddSpecificItemsToCart(indices: number[]): Promise<void> {
     await test.step(`Add ${indices.length} items to cart`, async () => {
       for (const index of indices) {
-        await this.addToCartButtons.nth(index).click();
+        await this.locator.addToCartButtons.nth(index).click();
       }
     });
   }
 
   async performOpenCart(): Promise<void> {
     await test.step('Open Cart', async () => {
-      await this.cartLink.click();
+      await this.locator.cartLink.click();
     });
   }
 
   async performRemoveItemFromCart(index: number): Promise<void> {
     await test.step('Remove item from cart', async () => {
-      await this.removeButtons.nth(index).click();
+      await this.locator.removeButtons.nth(index).click();
     });
   }
 
   async performRemoveAllItemsFromCart(): Promise<void> {
     await test.step('Remove all items from cart', async () => {
-      const removeCount = await this.removeButtons.count();
+      const removeCount = await this.locator.removeButtons.count();
 
       for (let i = 0; i < removeCount; i++) {
-        await this.page.locator(inventorySelector.removeButton).first().click();
+        await this.locator.removeButtons.nth(i).click();
       }
     });
   }
 
   async assertItemsSortedByNameAZ(): Promise<void> {
-    const itemNames = await this.itemNames.allTextContents();
+    const itemNames = await this.locator.itemNames.allTextContents();
     const sortedNames = [...itemNames].sort();
 
     expect(itemNames).toEqual(sortedNames);
   }
 
   async assertItemsSortedByNameZA(): Promise<void> {
-    const itemNames = await this.itemNames.allTextContents();
+    const itemNames = await this.locator.itemNames.allTextContents();
     const sortedNames = [...itemNames].sort().reverse();
 
     expect(itemNames).toEqual(sortedNames);
   }
 
   async assertItemsSortedByPriceLowHigh(): Promise<void> {
-    const itemPrices = await this.itemPrices.allTextContents();
+    const itemPrices = await this.locator.itemPrices.allTextContents();
     const prices = itemPrices.map((price) =>
       parseFloat(price.replace('$', '')),
     );
@@ -137,7 +109,7 @@ export class InventoryPage extends AbstractPage {
   }
 
   async assertItemsSortedByPriceHighLow(): Promise<void> {
-    const itemPrices = await this.itemPrices.allTextContents();
+    const itemPrices = await this.locator.itemPrices.allTextContents();
     const prices = itemPrices.map((price) =>
       parseFloat(price.replace('$', '')),
     );
@@ -147,18 +119,22 @@ export class InventoryPage extends AbstractPage {
   }
 
   async assertCartBadgeCount(expectedCount: number): Promise<void> {
-    await expect(this.cartBadge).toContainText(expectedCount.toString());
+    await expect(this.locator.cartBadge).toContainText(
+      expectedCount.toString(),
+    );
   }
 
   async assertCartItemCount(expectedCount: number): Promise<void> {
-    const count = await this.cartItems.count();
+    const count = await this.locator.cartItems.count();
     expect(count).toBe(expectedCount);
   }
 
   async assertCartEmpty(): Promise<void> {
-    const count = await this.cartItems.count();
+    const count = await this.locator.cartItems.count();
     expect(count).toBe(0);
 
-    await expect(this.emptyCartMessage).toContainText('Continue Shopping');
+    await expect(this.locator.emptyCartMessage).toContainText(
+      'Continue Shopping',
+    );
   }
 }

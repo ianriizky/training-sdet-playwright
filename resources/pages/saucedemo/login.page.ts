@@ -1,40 +1,24 @@
-import test, { expect } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
 
-import { loginSelector } from '@/resources/selectors/saucedemo/login.selector';
+import { LoginLocator } from '@/resources/locators/saucedemo/login.locator';
+import { type LoginSelector } from '@/resources/selectors/saucedemo/login.selector';
 
 import { AbstractPage } from './abstract.page';
 
-export class LoginPage extends AbstractPage {
-  get usernameField() {
-    return this.page.locator(loginSelector.usernameField);
-  }
-
-  get passwordField() {
-    return this.page.locator(loginSelector.passwordField);
-  }
-
-  get loginButton() {
-    return this.page.locator(loginSelector.loginButton);
-  }
-
-  get error() {
-    return this.page.locator(loginSelector.error);
-  }
-
-  get burgerMenuButton() {
-    return this.page.locator(loginSelector.burgerMenuButton);
-  }
-
-  get logoutLink() {
-    return this.page.locator(loginSelector.logoutLink);
+export class LoginPage extends AbstractPage<LoginLocator> {
+  constructor(
+    protected override readonly page: Page,
+    protected readonly selector: LoginSelector,
+  ) {
+    super(page, new LoginLocator(page, selector));
   }
 
   async performFillInValidCredentials(): Promise<void> {
     await test.step('Fill in valid credentials', async () => {
-      const credential = this.randomAcceptedCredential;
+      const credential = this.acceptedCredentials[0]!;
 
-      await this.usernameField.fill(credential.username);
-      await this.passwordField.fill(credential.password);
+      await this.locator.usernameField.fill(credential.username);
+      await this.locator.passwordField.fill(credential.password);
     });
   }
 
@@ -42,8 +26,8 @@ export class LoginPage extends AbstractPage {
     await test.step('Fill in invalid credentials', async () => {
       const credential = this.faker.internet;
 
-      await this.usernameField.fill(credential.username());
-      await this.passwordField.fill(credential.password());
+      await this.locator.usernameField.fill(credential.username());
+      await this.locator.passwordField.fill(credential.password());
     });
   }
 
@@ -59,14 +43,14 @@ export class LoginPage extends AbstractPage {
 
   async performClickLoginButton(): Promise<void> {
     await test.step('Click login button', async () => {
-      await this.loginButton.click();
+      await this.locator.loginButton.click();
     });
   }
 
   async performClickLogoutButton(): Promise<void> {
     await test.step('Click logout button', async () => {
-      await this.burgerMenuButton.click();
-      await this.logoutLink.click();
+      await this.locator.burgerMenuButton.click();
+      await this.locator.logoutLink.click();
     });
   }
 
@@ -77,12 +61,12 @@ export class LoginPage extends AbstractPage {
   }
 
   async assertHasErrorLoginUsernamePasswordDontMatch(): Promise<void> {
-    await expect(this.error).toContainText(
+    await expect(this.locator.error).toContainText(
       'Username and password do not match any user in this service',
     );
   }
 
   async assertHasErrorLoginUsernameRequired(): Promise<void> {
-    await expect(this.error).toContainText('Username is required');
+    await expect(this.locator.error).toContainText('Username is required');
   }
 }

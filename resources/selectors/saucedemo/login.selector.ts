@@ -1,8 +1,12 @@
+import type { Selector } from '@/resources/locators/abstract.locator';
+
 export const loginSelector = {
-  usernameField: '[data-test="username"]',
-  passwordField: '[data-test="password"]',
-  loginButton: '[data-test="login-button"]',
-  error: '[data-test="error"]',
-  burgerMenuButton: '#react-burger-menu-btn',
-  logoutLink: '[data-test="logout-sidebar-link"]',
-};
+  usernameField: { selector: '[data-test="username"]' },
+  passwordField: { selector: '[data-test="password"]' },
+  loginButton: { selector: '[data-test="login-button"]' },
+  error: { selector: '[data-test="error"]' },
+  burgerMenuButton: { selector: '#react-burger-menu-btn' },
+  logoutLink: { selector: '[data-test="logout-sidebar-link"]' },
+} satisfies Selector;
+
+export type LoginSelector = typeof loginSelector;

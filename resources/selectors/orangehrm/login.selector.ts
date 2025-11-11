@@ -1,9 +1,13 @@
+import type { Selector } from '@/resources/locators/abstract.locator';
+
 export const loginSelector = {
-  usernameField: 'input[name="username"]',
-  passwordField: 'input[name="password"]',
-  loginButton: 'button[type="submit"]',
-  errorMessage: '.oxd-alert-content-text',
-  requiredErrorMessages: '.oxd-input-field-error-message',
-  userDropdown: '.oxd-userdropdown-name',
-  logoutMenuItem: '[role="menuitem"]',
-};
+  usernameField: { selector: 'input[name="username"]' },
+  passwordField: { selector: 'input[name="password"]' },
+  loginButton: { selector: 'button[type="submit"]' },
+  errorMessage: { selector: '.oxd-alert-content-text' },
+  requiredErrorMessages: { selector: '.oxd-input-field-error-message' },
+  userDropdown: { selector: '.oxd-userdropdown-name' },
+  logoutMenuItem: { selector: '[role="menuitem"]' },
+} satisfies Selector;
+
+export type LoginSelector = typeof loginSelector;
