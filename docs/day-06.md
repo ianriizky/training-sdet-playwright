@@ -2,6 +2,6 @@
 
 ## Refactor all previous Days exercise to:
 
-- [ ] Implement the Environment Variable
-- [ ] Implement the Faker
-- [ ] Implement the Helper
+- [x] Implement the Environment Variable
+- [x] Implement the Faker
+- [x] Implement the Helper
