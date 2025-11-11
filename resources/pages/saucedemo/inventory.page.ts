@@ -1,7 +1,6 @@
 import test, { expect } from '@playwright/test';
 
 import { inventorySelector } from '@/resources/selectors/saucedemo/inventory.selector';
-import { generateRandomNumber } from '@/resources/utils';
 
 import { AbstractPage } from './abstract.page';
 
@@ -72,7 +71,9 @@ export class InventoryPage extends AbstractPage {
 
       const selectedIndices = new Set<number>();
       while (selectedIndices.size < Math.min(count, totalButtons)) {
-        selectedIndices.add(generateRandomNumber(0, totalButtons));
+        selectedIndices.add(
+          this.faker.number.int({ min: 0, max: totalButtons - 1 }),
+        );
       }
 
       for (const index of selectedIndices) {

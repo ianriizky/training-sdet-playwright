@@ -43,8 +43,9 @@ export default defineConfig({
       : ['null'],
   ],
   use: {
-    baseURL: process.env.APP_URL,
+    baseURL: process.env.BASE_URL,
     trace: 'on-first-retry',
+    // video: 'on',
   },
   projects: [
     {
@@ -83,7 +84,7 @@ export default defineConfig({
 
   // webServer: {
   //   command: 'npm run start',
-  //   url: process.env.APP_URL,
+  //   url: process.env.BASE_URL,
   //   timeout: 120 * 1000,
   //   reuseExistingServer: !process.env.CI,
   // },

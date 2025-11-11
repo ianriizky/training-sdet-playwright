@@ -5,10 +5,6 @@ import { loginSelector } from '@/resources/selectors/orangehrm/login.selector';
 import { AbstractPage } from './abstract.page';
 
 export class LoginPage extends AbstractPage {
-  protected readonly acceptedUsernames = ['Admin'] as const;
-
-  protected readonly acceptedPasswords = ['admin123'] as const;
-
   get usernameField() {
     return this.page.locator(loginSelector.usernameField);
   }
@@ -43,15 +39,19 @@ export class LoginPage extends AbstractPage {
 
   async performFillInValidCredentials(): Promise<void> {
     await test.step('Fill in valid credentials', async () => {
-      await this.usernameField.fill(this.acceptedUsernames[0]);
-      await this.passwordField.fill(this.acceptedPasswords[0]);
+      const credential = this.randomAcceptedCredential;
+
+      await this.usernameField.fill(credential.username);
+      await this.passwordField.fill(credential.password);
     });
   }
 
   async performFillInInvalidCredentials(): Promise<void> {
     await test.step('Fill in invalid credentials', async () => {
-      await this.usernameField.fill('invalid_user');
-      await this.passwordField.fill('invalid_password');
+      const credential = this.faker.internet;
+
+      await this.usernameField.fill(credential.username());
+      await this.passwordField.fill(credential.password());
     });
   }
 
