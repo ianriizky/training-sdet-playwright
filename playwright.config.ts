@@ -22,6 +22,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   ...(process.env.CI ? { workers: 1 } : {}),
   reporter: [
+    ['html'],
     ['line'],
     process.env.COVERAGE === 'true'
       ? [
@@ -44,8 +45,8 @@ export default defineConfig({
   ],
   use: {
     baseURL: process.env.BASE_URL,
-    trace: 'on-first-retry',
-    // video: 'on',
+    trace: 'retain-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
     {
