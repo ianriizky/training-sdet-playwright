@@ -1,6 +1,6 @@
 import env from '@/resources/env';
 
-import { AbstractPage as BaseAbstract } from '../abstract.page';
+import { AbstractPage as BaseAbstractPage } from '../abstract.page';
 
 import type { Page } from '@playwright/test';
 
@@ -9,7 +9,7 @@ interface Credential {
   password: string;
 }
 
-export abstract class AbstractPage extends BaseAbstract {
+export abstract class AbstractPage extends BaseAbstractPage {
   constructor(protected override readonly page: Page) {
     super(page, { baseURL: env.SAUCEDEMO_BASE_URL });
   }
@@ -41,9 +41,5 @@ export abstract class AbstractPage extends BaseAbstract {
         password: this.env.SAUCEDEMO_PASSWORD_VISUAL_USER,
       },
     ];
-  }
-
-  protected get randomAcceptedCredential(): Credential {
-    return this.faker.helpers.arrayElement(this.acceptedCredentials);
   }
 }

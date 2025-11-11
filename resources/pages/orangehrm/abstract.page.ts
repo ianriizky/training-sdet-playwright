@@ -1,6 +1,6 @@
 import env from '@/resources/env';
 
-import { AbstractPage as BaseAbstract } from '../abstract.page';
+import { AbstractPage as BaseAbstractPage } from '../abstract.page';
 
 import type { Page } from '@playwright/test';
 
@@ -9,7 +9,7 @@ interface Credential {
   password: string;
 }
 
-export abstract class AbstractPage extends BaseAbstract {
+export abstract class AbstractPage extends BaseAbstractPage {
   constructor(protected override readonly page: Page) {
     super(page, { baseURL: env.ORANGEHRM_BASE_URL });
   }
