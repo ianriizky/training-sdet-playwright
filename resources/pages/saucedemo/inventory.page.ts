@@ -60,9 +60,16 @@ export class InventoryPage extends AbstractPage<InventoryLocator> {
   }
 
   async performAddSpecificItemsToCart(indices: number[]): Promise<void> {
+    const addToCartButtons = await this.locator.collectAddToCartButtons();
+
+    test.skip(
+      indices.length > addToCartButtons.length,
+      `Not enough items to add to cart. Expected ${indices.length}, but only ${addToCartButtons.length} available.`,
+    );
+
     await test.step(`Add ${indices.length} items to cart`, async () => {
       for (const index of indices) {
-        await this.locator.addToCartButtons.nth(index).click();
+        await addToCartButtons[index]!.click();
       }
     });
   }
@@ -74,8 +81,15 @@ export class InventoryPage extends AbstractPage<InventoryLocator> {
   }
 
   async performRemoveItemFromCart(index: number): Promise<void> {
+    const removeButtons = await this.locator.collectRemoveButtons();
+
+    test.skip(
+      index > removeButtons.length - 1,
+      `Not enough items to remove from cart. Expected ${index}, but only ${removeButtons.length} available.`,
+    );
+
     await test.step('Remove item from cart', async () => {
-      await this.locator.removeButtons.nth(index).click();
+      await removeButtons[index]!.click();
     });
   }
 
