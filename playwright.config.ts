@@ -24,6 +24,7 @@ export default defineConfig({
   reporter: [
     ['html'],
     ['line'],
+    ['json', { outputFile: 'report.json' }],
     process.env.COVERAGE === 'true'
       ? [
           '@bgotink/playwright-coverage',
