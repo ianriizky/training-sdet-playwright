@@ -34,8 +34,11 @@
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "lint": "eslint \"{src,tests}/**/*.ts\" --fix",
-    "test": "playwright test",
-    "test:cov": "export COVERAGE=true && playwright test"
+    "playwright:install": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright install",
+    "test": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright test",
+    "test:headed": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright test --headed",
+    "test:ui": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright test --ui",
+    "test:cov": "export COVERAGE=true && PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright test"
   },
   "devDependencies": {
     "@bgotink/playwright-coverage": "^0.3.2",
