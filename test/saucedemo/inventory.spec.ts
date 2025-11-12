@@ -4,7 +4,7 @@ import { InventoryPage } from '@/resources/pages/saucedemo/inventory.page';
 import { LoginPage } from '@/resources/pages/saucedemo/login.page';
 import { generateRandomNumber } from '@/resources/utils';
 
-test.describe('SauceDemo - Inventory', () => {
+test.describe('SauceDemo - Inventory', { tag: '@saucedemo' }, () => {
   let loginPage: LoginPage;
   let inventoryPage: InventoryPage;
 

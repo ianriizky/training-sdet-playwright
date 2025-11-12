@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 
 import { LoginPage } from '@/resources/pages/orangehrm/login.page';
 
-test.describe('OrangeHRM - Login', () => {
+test.describe('OrangeHRM - Login', { tag: '@orangehrm' }, () => {
   let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {

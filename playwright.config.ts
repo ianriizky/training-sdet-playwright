@@ -54,6 +54,16 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'saucedemo',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: ['test/saucedemo/**/*.spec.ts'],
+    },
+    {
+      name: 'orangehrm',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: ['test/orangehrm/**/*.spec.ts'],
+    },
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },

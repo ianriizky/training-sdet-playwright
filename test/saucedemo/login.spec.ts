@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 
 import { LoginPage } from '@/resources/pages/saucedemo/login.page';
 
-test.describe('SauceDemo - Login', () => {
+test.describe('SauceDemo - Login', { tag: '@saucedemo' }, () => {
   let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {

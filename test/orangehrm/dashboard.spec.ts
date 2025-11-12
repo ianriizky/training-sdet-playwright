@@ -3,7 +3,7 @@ import { test } from '@playwright/test';
 import { DashboardPage } from '@/resources/pages/orangehrm/dashboard.page';
 import { LoginPage } from '@/resources/pages/orangehrm/login.page';
 
-test.describe('OrangeHRM - Dashboard', () => {
+test.describe('OrangeHRM - Dashboard', { tag: '@orangehrm' }, () => {
   let loginPage: LoginPage;
   let dashboardPage: DashboardPage;
 
