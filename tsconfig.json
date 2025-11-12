@@ -26,8 +26,8 @@
     "allowUnusedLabels": false,
     "paths": {
       "@/resources/*": ["./resources/*"],
-      "@/test/*": ["./test/*"]
+      "@/tests/*": ["./tests/*"]
     }
   },
-  "include": ["resources/**/*", "test/**/*", "playwright.config.ts"]
+  "include": ["resources/**/*", "tests/**/*", "playwright.config.ts"]
 }

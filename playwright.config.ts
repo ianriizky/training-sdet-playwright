@@ -15,7 +15,7 @@ dotenv.config({ path: path.resolve(import.meta.dirname, '.env') });
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './test',
+  testDir: './tests',
   testMatch: '*.spec.ts',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -57,12 +57,12 @@ export default defineConfig({
     {
       name: 'saucedemo',
       use: { ...devices['Desktop Chrome'] },
-      testMatch: ['test/saucedemo/**/*.spec.ts'],
+      testMatch: ['tests/saucedemo/**/*.spec.ts'],
     },
     {
       name: 'orangehrm',
       use: { ...devices['Desktop Chrome'] },
-      testMatch: ['test/orangehrm/**/*.spec.ts'],
+      testMatch: ['tests/orangehrm/**/*.spec.ts'],
     },
     // {
     //   name: 'firefox',
