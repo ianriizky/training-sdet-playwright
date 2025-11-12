@@ -1,10 +1,8 @@
 import { type CartSelector } from '@/resources/selectors/saucedemo/cart.selector';
 
-import { AbstractLocator } from '../abstract.locator';
+import { CartItemsAbstractLocator } from './cart-items.abstract-locator';
 
-import type { Locator } from '@playwright/test';
-
-export class CartLocator extends AbstractLocator<CartSelector> {
+export class CartLocator extends CartItemsAbstractLocator<CartSelector> {
   get cartItems() {
     return this.page.locator(this.selector.cartItem.selector);
   }
@@ -37,22 +35,7 @@ export class CartLocator extends AbstractLocator<CartSelector> {
     return this.page.locator(this.selector.cartBadge.selector);
   }
 
-  getLocatorByDataTest(dataTest: string) {
-    return this.page.locator(`[data-test="${dataTest}"]`);
-  }
-
   async collectRemoveButtons() {
-    const removeButtons = await this.removeButtons.all();
-    const removeButtonLocators: Locator[] = [];
-
-    for (const button of removeButtons) {
-      const name = await button.getAttribute('data-test');
-
-      if (name) {
-        removeButtonLocators.push(this.getLocatorByDataTest(name));
-      }
-    }
-
-    return removeButtonLocators;
+    return this.collectLocatorsFromBaseLocator(this.removeButtons);
   }
 }

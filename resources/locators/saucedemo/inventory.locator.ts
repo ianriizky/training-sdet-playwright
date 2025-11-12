@@ -2,8 +2,6 @@ import { type InventorySelector } from '@/resources/selectors/saucedemo/inventor
 
 import { AbstractLocator } from '../abstract.locator';
 
-import type { Locator } from '@playwright/test';
-
 export class InventoryLocator extends AbstractLocator<InventorySelector> {
   get sortContainer() {
     return this.page.locator(this.selector.sortContainer.selector);
@@ -41,37 +39,11 @@ export class InventoryLocator extends AbstractLocator<InventorySelector> {
     return this.page.locator(this.selector.emptyCartMessage.selector);
   }
 
-  getLocatorByDataTest(dataTest: string) {
-    return this.page.locator(`[data-test="${dataTest}"]`);
-  }
-
   async collectAddToCartButtons() {
-    const addToButtons = await this.addToCartButtons.all();
-    const addToCartButtonLocators: Locator[] = [];
-
-    for (const button of addToButtons) {
-      const name = await button.getAttribute('data-test');
-
-      if (name) {
-        addToCartButtonLocators.push(this.getLocatorByDataTest(name));
-      }
-    }
-
-    return addToCartButtonLocators;
+    return this.collectLocatorsFromBaseLocator(this.addToCartButtons);
   }
 
   async collectRemoveButtons() {
-    const removeButtons = await this.removeButtons.all();
-    const removeButtonLocators: Locator[] = [];
-
-    for (const button of removeButtons) {
-      const name = await button.getAttribute('data-test');
-
-      if (name) {
-        removeButtonLocators.push(this.getLocatorByDataTest(name));
-      }
-    }
-
-    return removeButtonLocators;
+    return this.collectLocatorsFromBaseLocator(this.removeButtons);
   }
 }

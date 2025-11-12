@@ -13,11 +13,23 @@ export class CheckoutPage extends AbstractPage<CheckoutLocator> {
     super(page, new CheckoutLocator(page, selector));
   }
 
-  async performFillCheckoutForm(): Promise<void> {
+  async performFillCheckoutForm(
+    options?: Partial<{
+      firstName: string;
+      lastName: string;
+      postalCode: string;
+    }>,
+  ): Promise<void> {
     await test.step('Fill checkout form', async () => {
-      await this.locator.firstNameInput.fill(this.faker.person.firstName());
-      await this.locator.lastNameInput.fill(this.faker.person.lastName());
-      await this.locator.postalCodeInput.fill(this.faker.location.zipCode());
+      await this.locator.firstNameInput.fill(
+        options?.firstName ?? this.faker.person.firstName(),
+      );
+      await this.locator.lastNameInput.fill(
+        options?.lastName ?? this.faker.person.lastName(),
+      );
+      await this.locator.postalCodeInput.fill(
+        options?.postalCode ?? this.faker.location.zipCode(),
+      );
     });
   }
 

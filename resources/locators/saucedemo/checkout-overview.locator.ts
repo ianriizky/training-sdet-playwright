@@ -1,8 +1,8 @@
 import { type CheckoutOverviewSelector } from '@/resources/selectors/saucedemo/checkout-overview.selector';
 
-import { AbstractLocator } from '../abstract.locator';
+import { CartItemsAbstractLocator } from './cart-items.abstract-locator';
 
-export class CheckoutOverviewLocator extends AbstractLocator<CheckoutOverviewSelector> {
+export class CheckoutOverviewLocator extends CartItemsAbstractLocator<CheckoutOverviewSelector> {
   get cartItems() {
     return this.page.locator(this.selector.cartItem.selector);
   }

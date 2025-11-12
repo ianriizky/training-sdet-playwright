@@ -3,9 +3,9 @@ import test, { expect, type Page } from '@playwright/test';
 import { CartLocator } from '@/resources/locators/saucedemo/cart.locator';
 import { type CartSelector } from '@/resources/selectors/saucedemo/cart.selector';
 
-import { AbstractPage } from './abstract.page';
+import { CartItemsAbstractPage } from './cart-items.abstract.page';
 
-export class CartPage extends AbstractPage<CartLocator> {
+export class CartPage extends CartItemsAbstractPage<CartLocator> {
   constructor(
     protected override readonly page: Page,
     protected readonly selector: CartSelector,
@@ -45,23 +45,6 @@ export class CartPage extends AbstractPage<CartLocator> {
   async performCheckout(): Promise<void> {
     await test.step('Click checkout', async () => {
       await this.locator.checkoutButton.click();
-    });
-  }
-
-  async assertCartItemCount(expectedCount: number): Promise<void> {
-    await test.step(`Assert cart has ${expectedCount} items`, async () => {
-      const count = await this.locator.cartItems.count();
-      expect(count).toBe(expectedCount);
-    });
-  }
-
-  async assertCartItemsPresent(itemNames: string[]): Promise<void> {
-    await test.step(`Assert cart contains items: ${itemNames.join(', ')}`, async () => {
-      const cartItemNames = await this.locator.cartItemNames.allTextContents();
-
-      for (const itemName of itemNames) {
-        expect(cartItemNames).toContain(itemName);
-      }
     });
   }
 
