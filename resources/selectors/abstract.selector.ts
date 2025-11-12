@@ -6,11 +6,8 @@ export type SelectorOptions = {
 };
 export type Selector = Record<string, SelectorOptions>;
 
-export abstract class AbstractLocator<TSelector extends Selector = Selector> {
-  constructor(
-    protected readonly page: Page,
-    protected readonly selector: TSelector = {} as TSelector,
-  ) {}
+export abstract class AbstractSelector {
+  constructor(protected readonly page: Page) {}
 
   protected getLocatorByDataTest(dataTest: string): Locator {
     return this.page.locator(`[data-test="${dataTest}"]`);

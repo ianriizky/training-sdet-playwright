@@ -3,19 +3,19 @@ import { expect, type Page } from '@playwright/test';
 
 import env from '../env';
 
-import type { AbstractLocator } from '../locators/abstract.locator';
+import type { AbstractSelector } from '../selectors/abstract.selector';
 
 interface PageConfig {
   baseURL: string;
 }
 
-export abstract class AbstractPage<TLocator extends AbstractLocator> {
+export abstract class AbstractPage<TSelector extends AbstractSelector> {
   protected readonly env: typeof env;
   protected readonly faker: typeof faker;
 
   constructor(
     protected readonly page: Page,
-    protected readonly locator: TLocator,
+    protected readonly selector: TSelector,
     protected readonly config: PageConfig,
   ) {
     this.env = env;

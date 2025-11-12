@@ -1,4 +1,4 @@
-import type { Selector } from '@/resources/locators/abstract.locator';
+import type { Selector } from '@/resources/selectors/abstract.selector';
 
 export const sharedSelectors = {
   /** Cart Item Display - Used in Cart and CheckoutOverview pages */
@@ -14,5 +14,3 @@ export const sharedSelectors = {
   /** Common Buttons - Used in multiple pages */
   removeButton: { selector: '[data-test^="remove-"]' },
 } satisfies Selector;
-
-export type SharedSelectors = typeof sharedSelectors;

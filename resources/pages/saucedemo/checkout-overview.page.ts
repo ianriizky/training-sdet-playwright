@@ -1,33 +1,29 @@
 import test, { expect, type Page } from '@playwright/test';
 
-import { CheckoutOverviewLocator } from '@/resources/locators/saucedemo/checkout-overview.locator';
-import { type CheckoutOverviewSelector } from '@/resources/selectors/saucedemo/checkout-overview.selector';
+import { CheckoutOverviewSelector } from '@/resources/selectors/saucedemo/checkout-overview.selector';
 
 import { CartItemsAbstractPage } from './cart-items.abstract.page';
 
-export class CheckoutOverviewPage extends CartItemsAbstractPage<CheckoutOverviewLocator> {
-  constructor(
-    protected override readonly page: Page,
-    protected readonly selector: CheckoutOverviewSelector,
-  ) {
-    super(page, new CheckoutOverviewLocator(page, selector));
+export class CheckoutOverviewPage extends CartItemsAbstractPage<CheckoutOverviewSelector> {
+  constructor(protected override readonly page: Page) {
+    super(page, new CheckoutOverviewSelector(page));
   }
 
   async performClickFinish(): Promise<void> {
     await test.step('Click finish button', async () => {
-      await this.locator.finishButton.click();
+      await this.selector.finishButton.click();
     });
   }
 
   async performClickCancel(): Promise<void> {
     await test.step('Click cancel button', async () => {
-      await this.locator.cancelButton.click();
+      await this.selector.cancelButton.click();
     });
   }
 
   async assertTotalPrice(expectedTotal: string): Promise<void> {
     await test.step(`Assert total price is ${expectedTotal}`, async () => {
-      const totalText = await this.locator.totalLabel.textContent();
+      const totalText = await this.selector.totalLabel.textContent();
       expect(totalText).toContain(expectedTotal);
     });
   }

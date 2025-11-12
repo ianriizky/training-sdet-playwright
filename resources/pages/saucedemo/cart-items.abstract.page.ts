@@ -1,15 +1,15 @@
 import test, { expect } from '@playwright/test';
 
-import type { CartItemsAbstractLocator } from '@/resources/locators/saucedemo/cart-items.abstract-locator';
+import type { CartItemsAbstractSelector } from '@/resources/selectors/saucedemo/cart-items.abstract-selector';
 
 import { AbstractPage } from './abstract.page';
 
 export abstract class CartItemsAbstractPage<
-  TLocator extends CartItemsAbstractLocator,
-> extends AbstractPage<TLocator> {
+  TSelector extends CartItemsAbstractSelector,
+> extends AbstractPage<TSelector> {
   async assertCartItemCount(expectedCount: number): Promise<void> {
     await test.step(`Assert cart has ${expectedCount} items`, async () => {
-      const count = await this.locator.cartItems.count();
+      const count = await this.selector.cartItems.count();
 
       expect(count).toBe(expectedCount);
     });
@@ -19,7 +19,7 @@ export abstract class CartItemsAbstractPage<
     const itemsText = itemNames.join(', ');
 
     await test.step(`Assert cart contains items: ${itemsText}`, async () => {
-      const cartItemNames = await this.locator.cartItemNames.allTextContents();
+      const cartItemNames = await this.selector.cartItemNames.allTextContents();
 
       for (const itemName of itemNames) {
         expect(cartItemNames).toContain(itemName);

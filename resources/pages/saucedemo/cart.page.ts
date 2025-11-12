@@ -1,20 +1,16 @@
 import test, { expect, type Page } from '@playwright/test';
 
-import { CartLocator } from '@/resources/locators/saucedemo/cart.locator';
-import { type CartSelector } from '@/resources/selectors/saucedemo/cart.selector';
+import { CartSelector } from '@/resources/selectors/saucedemo/cart.selector';
 
 import { CartItemsAbstractPage } from './cart-items.abstract.page';
 
-export class CartPage extends CartItemsAbstractPage<CartLocator> {
-  constructor(
-    protected override readonly page: Page,
-    protected readonly selector: CartSelector,
-  ) {
-    super(page, new CartLocator(page, selector));
+export class CartPage extends CartItemsAbstractPage<CartSelector> {
+  constructor(protected override readonly page: Page) {
+    super(page, new CartSelector(page));
   }
 
   async performRemoveItemFromCart(index: number): Promise<void> {
-    const removeButtons = await this.locator.collectRemoveButtons();
+    const removeButtons = await this.selector.collectRemoveButtons();
 
     test.skip(
       index > removeButtons.length - 1,
@@ -28,7 +24,7 @@ export class CartPage extends CartItemsAbstractPage<CartLocator> {
 
   async performRemoveAllItemsFromCart(): Promise<void> {
     await test.step('Remove all items from cart', async () => {
-      const removeButtons = await this.locator.removeButtons.all();
+      const removeButtons = await this.selector.removeButtons.all();
 
       for (const removeButton of removeButtons) {
         await removeButton.click();
@@ -38,13 +34,13 @@ export class CartPage extends CartItemsAbstractPage<CartLocator> {
 
   async performContinueShopping(): Promise<void> {
     await test.step('Click continue shopping', async () => {
-      await this.locator.continueShoppingButton.click();
+      await this.selector.continueShoppingButton.click();
     });
   }
 
   async performCheckout(): Promise<void> {
     await test.step('Click checkout', async () => {
-      await this.locator.checkoutButton.click();
+      await this.selector.checkoutButton.click();
     });
   }
 

@@ -1,21 +1,17 @@
 import test, { expect, type Page } from '@playwright/test';
 
-import { OrderConfirmationLocator } from '@/resources/locators/saucedemo/order-confirmation.locator';
-import { type OrderConfirmationSelector } from '@/resources/selectors/saucedemo/order-confirmation.selector';
+import { OrderConfirmationSelector } from '@/resources/selectors/saucedemo/order-confirmation.selector';
 
 import { AbstractPage } from './abstract.page';
 
-export class OrderConfirmationPage extends AbstractPage<OrderConfirmationLocator> {
-  constructor(
-    protected override readonly page: Page,
-    protected readonly selector: OrderConfirmationSelector,
-  ) {
-    super(page, new OrderConfirmationLocator(page, selector));
+export class OrderConfirmationPage extends AbstractPage<OrderConfirmationSelector> {
+  constructor(protected override readonly page: Page) {
+    super(page, new OrderConfirmationSelector(page));
   }
 
   async performClickBackHome(): Promise<void> {
     await test.step('Click back to home button', async () => {
-      await this.locator.backHomeButton.click();
+      await this.selector.backHomeButton.click();
     });
   }
 
@@ -27,7 +23,7 @@ export class OrderConfirmationPage extends AbstractPage<OrderConfirmationLocator
 
   async assertHasConfirmationMessage(): Promise<void> {
     await test.step('Assert confirmation message is visible', async () => {
-      await expect(this.locator.confirmationMessage).toContainText(
+      await expect(this.selector.confirmationMessage).toContainText(
         'Thank you for your order',
       );
     });

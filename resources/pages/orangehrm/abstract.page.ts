@@ -1,5 +1,5 @@
 import env from '@/resources/env';
-import type { AbstractLocator } from '@/resources/locators/abstract.locator';
+import type { AbstractSelector } from '@/resources/selectors/abstract.selector';
 
 import { AbstractPage as BaseAbstractPage } from '../abstract.page';
 
@@ -11,13 +11,13 @@ interface Credential {
 }
 
 export abstract class AbstractPage<
-  TLocator extends AbstractLocator,
-> extends BaseAbstractPage<TLocator> {
+  TSelector extends AbstractSelector,
+> extends BaseAbstractPage<TSelector> {
   constructor(
     protected override readonly page: Page,
-    protected override readonly locator: TLocator,
+    protected override readonly selector: TSelector,
   ) {
-    super(page, locator, { baseURL: env.ORANGEHRM_BASE_URL });
+    super(page, selector, { baseURL: env.ORANGEHRM_BASE_URL });
   }
 
   protected get acceptedCredentials(): Credential[] {

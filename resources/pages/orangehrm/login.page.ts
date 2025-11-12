@@ -1,16 +1,12 @@
 import test, { expect, type Page } from '@playwright/test';
 
-import { LoginLocator } from '@/resources/locators/orangehrm/login.locator';
-import type { LoginSelector } from '@/resources/selectors/orangehrm/login.selector';
+import { LoginSelector } from '@/resources/selectors/orangehrm/login.selector';
 
 import { AbstractPage } from './abstract.page';
 
-export class LoginPage extends AbstractPage<LoginLocator> {
-  constructor(
-    protected override readonly page: Page,
-    protected readonly selector: LoginSelector,
-  ) {
-    super(page, new LoginLocator(page, selector));
+export class LoginPage extends AbstractPage<LoginSelector> {
+  constructor(protected override readonly page: Page) {
+    super(page, new LoginSelector(page));
   }
 
   async navigateToLoginPage(): Promise<void> {
@@ -21,8 +17,8 @@ export class LoginPage extends AbstractPage<LoginLocator> {
     await test.step('Fill in valid credentials', async () => {
       const credential = this.randomAcceptedCredential;
 
-      await this.locator.usernameField.fill(credential.username);
-      await this.locator.passwordField.fill(credential.password);
+      await this.selector.usernameField.fill(credential.username);
+      await this.selector.passwordField.fill(credential.password);
     });
   }
 
@@ -30,14 +26,14 @@ export class LoginPage extends AbstractPage<LoginLocator> {
     await test.step('Fill in invalid credentials', async () => {
       const credential = this.faker.internet;
 
-      await this.locator.usernameField.fill(credential.username());
-      await this.locator.passwordField.fill(credential.password());
+      await this.selector.usernameField.fill(credential.username());
+      await this.selector.passwordField.fill(credential.password());
     });
   }
 
   async performClickLoginButton(): Promise<void> {
     await test.step('Click login button', async () => {
-      await this.locator.loginButton.click();
+      await this.selector.loginButton.click();
     });
   }
 
@@ -53,7 +49,7 @@ export class LoginPage extends AbstractPage<LoginLocator> {
 
   async performClickLogoutButton(): Promise<void> {
     await test.step('Click logout button', async () => {
-      await this.locator.userDropdown.click();
+      await this.selector.userDropdown.click();
       await this.page.getByRole('menuitem', { name: 'Logout' }).click();
     });
   }
@@ -67,13 +63,13 @@ export class LoginPage extends AbstractPage<LoginLocator> {
   }
 
   async assertHasErrorLoginInvalidCredentials(): Promise<void> {
-    await expect(this.locator.errorMessage).toContainText(
+    await expect(this.selector.errorMessage).toContainText(
       'Invalid credentials',
     );
   }
 
   async assertHasErrorLoginRequiredFields(): Promise<void> {
-    const errorMessages = await this.locator.requiredErrorMessages.all();
+    const errorMessages = await this.selector.requiredErrorMessages.all();
 
     for (const errorMessage of errorMessages) {
       await expect(errorMessage).toContainText('Required');

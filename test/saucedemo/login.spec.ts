@@ -1,13 +1,12 @@
 import { test } from '@playwright/test';
 
 import { LoginPage } from '@/resources/pages/saucedemo/login.page';
-import { loginSelector } from '@/resources/selectors/saucedemo/login.selector';
 
 test.describe('SauceDemo - Login', () => {
   let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page, loginSelector);
+    loginPage = new LoginPage(page);
 
     await loginPage.navigateToHomePage();
   });

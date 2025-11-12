@@ -2,14 +2,13 @@ import { test } from '@playwright/test';
 
 import { DashboardPage } from '@/resources/pages/orangehrm/dashboard.page';
 import { LoginPage } from '@/resources/pages/orangehrm/login.page';
-import { loginSelector } from '@/resources/selectors/orangehrm/login.selector';
 
 test.describe('OrangeHRM - Dashboard', () => {
   let loginPage: LoginPage;
   let dashboardPage: DashboardPage;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page, loginSelector);
+    loginPage = new LoginPage(page);
     dashboardPage = new DashboardPage(page);
 
     await loginPage.navigateToLoginPage();

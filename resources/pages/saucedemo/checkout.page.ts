@@ -1,16 +1,12 @@
 import test, { expect, type Page } from '@playwright/test';
 
-import { CheckoutLocator } from '@/resources/locators/saucedemo/checkout.locator';
-import { type CheckoutSelector } from '@/resources/selectors/saucedemo/checkout.selector';
+import { CheckoutSelector } from '@/resources/selectors/saucedemo/checkout.selector';
 
 import { AbstractPage } from './abstract.page';
 
-export class CheckoutPage extends AbstractPage<CheckoutLocator> {
-  constructor(
-    protected override readonly page: Page,
-    protected readonly selector: CheckoutSelector,
-  ) {
-    super(page, new CheckoutLocator(page, selector));
+export class CheckoutPage extends AbstractPage<CheckoutSelector> {
+  constructor(protected override readonly page: Page) {
+    super(page, new CheckoutSelector(page));
   }
 
   async performFillCheckoutForm(
@@ -21,13 +17,13 @@ export class CheckoutPage extends AbstractPage<CheckoutLocator> {
     }>,
   ): Promise<void> {
     await test.step('Fill checkout form', async () => {
-      await this.locator.firstNameInput.fill(
+      await this.selector.firstNameInput.fill(
         options?.firstName ?? this.faker.person.firstName(),
       );
-      await this.locator.lastNameInput.fill(
+      await this.selector.lastNameInput.fill(
         options?.lastName ?? this.faker.person.lastName(),
       );
-      await this.locator.postalCodeInput.fill(
+      await this.selector.postalCodeInput.fill(
         options?.postalCode ?? this.faker.location.zipCode(),
       );
     });
@@ -35,13 +31,13 @@ export class CheckoutPage extends AbstractPage<CheckoutLocator> {
 
   async performClickContinue(): Promise<void> {
     await test.step('Click continue button', async () => {
-      await this.locator.continueButton.click();
+      await this.selector.continueButton.click();
     });
   }
 
   async performClickCancel(): Promise<void> {
     await test.step('Click cancel button', async () => {
-      await this.locator.cancelButton.click();
+      await this.selector.cancelButton.click();
     });
   }
 
@@ -58,6 +54,6 @@ export class CheckoutPage extends AbstractPage<CheckoutLocator> {
   }
 
   async assertHasErrorMessage(errorText: string): Promise<void> {
-    await expect(this.locator.errorMessage).toContainText(errorText);
+    await expect(this.selector.errorMessage).toContainText(errorText);
   }
 }
