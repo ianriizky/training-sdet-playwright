@@ -21,6 +21,14 @@ const envSchema = z.object({
     .default('https://opensource-demo.orangehrmlive.com'),
   ORANGEHRM_USERNAME: z.string(),
   ORANGEHRM_PASSWORD: z.string(),
+
+  TYPICODE_BASE_URL: z
+    .url()
+    .optional()
+    .default('https://jsonplaceholder.typicode.com'),
+
+  REQRES_BASE_URL: z.url().optional().default('https://reqres.in'),
+  REQRES_API_KEY: z.string(),
 });
 
 const env = envSchema.parse(process.env);

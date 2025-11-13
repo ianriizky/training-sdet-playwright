@@ -9,14 +9,17 @@ interface PageConfig {
   baseURL: string;
 }
 
-export abstract class AbstractPage<TSelector extends AbstractSelector> {
+export abstract class AbstractPage<
+  TSelector extends AbstractSelector,
+  TConfig extends PageConfig = PageConfig,
+> {
   protected readonly env: typeof env;
   protected readonly faker: typeof faker;
 
   constructor(
     protected readonly page: Page,
     protected readonly selector: TSelector,
-    protected readonly config: PageConfig,
+    protected readonly config: TConfig,
   ) {
     this.env = env;
     this.faker = faker;
