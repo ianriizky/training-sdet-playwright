@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       npm_script:
-        description: 'Pilih script npm untuk dijalankan'
+        description: 'Choose npm script to run'
         required: true
         default: 'test:cov'
         type: choice
@@ -39,6 +39,11 @@ env:
   ORANGEHRM_BASE_URL: ${{ vars.ORANGEHRM_BASE_URL || 'https://opensource-demo.orangehrmlive.com' }}
   ORANGEHRM_USERNAME: ${{ secrets.ORANGEHRM_USERNAME }}
   ORANGEHRM_PASSWORD: ${{ secrets.ORANGEHRM_PASSWORD }}
+
+  TYPICODE_BASE_URL: ${{ vars.TYPICODE_BASE_URL || 'https://jsonplaceholder.typicode.com' }}
+
+  REQRES_BASE_URL: ${{ vars.REQRES_BASE_URL || 'https://reqres.in/api' }}
+  REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
 
 jobs:
   test:

@@ -22,6 +22,11 @@ variables:
   ORANGEHRM_USERNAME: ${ORANGEHRM_USERNAME}
   ORANGEHRM_PASSWORD: ${ORANGEHRM_PASSWORD}
 
+  TYPICODE_BASE_URL: ${TYPICODE_BASE_URL:-https://jsonplaceholder.typicode.com}
+
+  REQRES_BASE_URL: ${REQRES_BASE_URL:-https://reqres.in/api}
+  REQRES_API_KEY: ${REQRES_API_KEY}
+
 test:
   stage: test
   script:
