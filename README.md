@@ -24,6 +24,7 @@
     - [GitHub](#github)
   - [Table of contents](#table-of-contents)
   - [Description](#description)
+  - [Architecture](#architecture)
   - [Requirements](#requirements)
   - [Tech stack](#tech-stack)
   - [Project setup](#project-setup)
@@ -34,6 +35,10 @@
 ## Description
 
 A training project to learn SDET using Playwright.
+
+## Architecture
+
+You can read the architecture [here](ARCHITECTURE.md).
 
 ## Requirements
 
