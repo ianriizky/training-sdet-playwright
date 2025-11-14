@@ -54,7 +54,7 @@ You can read the architecture [here](ARCHITECTURE.md).
 ```bash
 $ cp .env.example .env # Copy .env.example to .env
 $ npm install
-$ npx playwright install
+$ npm run playwright:install
 ```
 
 ## Run tests

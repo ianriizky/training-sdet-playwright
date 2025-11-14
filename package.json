@@ -35,6 +35,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "lint": "eslint \"{src,tests}/**/*.ts\" --fix",
     "playwright:install": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright install",
+    "playwright:install:deps": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright install --with-deps",
     "show:report": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright show-report",
     "test": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright test",
     "test:headed": "PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers playwright test --headed",
