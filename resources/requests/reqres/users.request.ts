@@ -102,10 +102,10 @@ export class UsersRequest extends AbstractRequest {
     });
   }
 
-  async assertIndex(response: APIResponse<ListResponseBody>): Promise<void> {
-    expect(response.status()).toBe(200);
+  async assertIndex(actual: APIResponse<ListResponseBody>): Promise<void> {
+    expect(actual.status()).toBe(200);
 
-    const body = await response.json();
+    const body = await actual.json();
 
     expect(body.data).toBeDefined();
     expect(Array.isArray(body.data)).toBe(true);
@@ -113,50 +113,50 @@ export class UsersRequest extends AbstractRequest {
   }
 
   async assertStore(
-    response: APIResponse<ResponseBody>,
-    actual: { data: RequestBody },
+    actual: APIResponse<ResponseBody>,
+    expected: { data: RequestBody },
   ): Promise<void> {
-    expect(response.status()).toBe(201);
+    expect(actual.status()).toBe(201);
 
-    const body = await response.json();
+    const body = await actual.json();
 
-    expect(body.name).toBe(actual.data.name);
-    expect(body.job).toBe(actual.data.job);
+    expect(body.name).toBe(expected.data.name);
+    expect(body.job).toBe(expected.data.job);
     expect(body.id).toBeDefined();
     expect(body.createdAt).toBeDefined();
   }
 
   async assertShow(
-    response: APIResponse<{ data: ResponseBody }>,
-    actual?: { data: RequestBody },
+    actual: APIResponse<{ data: ResponseBody }>,
+    expected?: { data: RequestBody },
   ): Promise<void> {
-    expect(response.status()).toBe(200);
+    expect(actual.status()).toBe(200);
 
-    const body = await response.json();
+    const body = await actual.json();
 
     expect(body.data).toBeDefined();
     expect(body.data.id).toBeDefined();
 
-    if (actual) {
-      expect(body.data.name).toBe(actual.data.name);
-      expect(body.data.job).toBe(actual.data.job);
+    if (expected) {
+      expect(body.data.name).toBe(expected.data.name);
+      expect(body.data.job).toBe(expected.data.job);
     }
   }
 
   async assertUpdate(
-    response: APIResponse<ResponseBody>,
-    actual: { data: RequestBody },
+    actual: APIResponse<ResponseBody>,
+    expected: { data: RequestBody },
   ): Promise<void> {
-    expect(response.status()).toBe(200);
+    expect(actual.status()).toBe(200);
 
-    const body = await response.json();
+    const body = await actual.json();
 
-    expect(body.name).toBe(actual.data.name);
-    expect(body.job).toBe(actual.data.job);
+    expect(body.name).toBe(expected.data.name);
+    expect(body.job).toBe(expected.data.job);
     expect(body.updatedAt).toBeDefined();
   }
 
-  assertDestroy(response: APIResponse<void>): void {
-    expect(response.status()).toBe(204);
+  assertDestroy(actual: APIResponse<void>): void {
+    expect(actual.status()).toBe(204);
   }
 }
