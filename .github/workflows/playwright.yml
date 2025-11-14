@@ -5,6 +5,19 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      npm_script:
+        description: 'Pilih script npm untuk dijalankan'
+        required: true
+        default: 'test:cov'
+        type: choice
+        options:
+          - test:cov # semua test + coverage
+          - test # semua test tanpa coverage
+          - test:saucedemo
+          - test:orangehrm
+          - test:e2e
 
 env:
   NODE_VERSION: 24.11.0
@@ -48,7 +61,7 @@ jobs:
         uses: ./.github/actions/install-playwright
 
       - name: Run Playwright tests
-        run: npm run test:cov
+        run: npm run ${{ github.event.inputs.npm_script || 'test:cov' }}
 
       - name: Upload coverage report
         uses: ./.github/actions/upload-coverage
